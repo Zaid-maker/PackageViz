@@ -22,5 +22,11 @@ jobs:
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v3
         
+      # Install and use npm for security audit since Bun's audit is not yet available
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
       - name: Run Security Audit
-        run: bun pm audit
+        run: npm audit

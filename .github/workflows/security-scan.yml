@@ -22,8 +22,14 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Run security audit
-        run: bun pm audit
+      # Use Node.js and npm for security audits
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Run npm audit
+        run: npm audit
 
       - name: Detect secrets
         uses: gitleaks/gitleaks-action@v2
@@ -36,6 +42,10 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
+
+      # Additional security checks
+      - name: Check untrusted dependencies
+        run: bun pm untrusted
 
       - name: Install and run NodeJSScan
         run: |

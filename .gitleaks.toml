@@ -1,0 +1,38 @@
+[allowlist]
+  description = "Global allowlist"
+  paths = [
+    '''bun.lockb$''',
+    '''package-lock.json$''',
+    '''yarn.lock$''',
+    '''__snapshots__/''',
+    '''dist/''',
+  ]
+
+# Base rules for common secret patterns
+[[rules]]
+  id = "generic-api-key"
+  description = "Generic API Key"
+  regex = '''(?i)(api[_-]?key|apikey|auth[_-]?key|token)['\"]?\s*[:=]\s*['"]?([a-zA-Z0-9-_=]{32,})['"]?'''
+  secretGroup = 2
+  entropy = 3.7
+
+[[rules]]
+  id = "npm-auth-token"
+  description = "NPM Authentication Token"
+  regex = '''(npm_[a-zA-Z0-9]{36})'''
+  secretGroup = 1
+
+[[rules]]
+  id = "github-token"
+  description = "GitHub Token"
+  regex = '''gh[pousr]_[A-Za-z0-9_]{36}'''
+
+[[rules]]
+  id = "aws-access-key"
+  description = "AWS Access Key"
+  regex = '''((?:A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16})'''
+
+[[rules]]
+  id = "snyk-token"
+  description = "Snyk API Token"
+  regex = '''([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})'''

@@ -39,6 +39,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}  # Optional: for pro features
         with:
           config-path: .gitleaks.toml  # Will use default if not found
           enable-git-history-scan: false  # Only scan current state
@@ -57,9 +58,14 @@ jobs:
       - name: Check untrusted dependencies
         run: bun pm untrusted
 
+      # Install and run NodeJSScan using pip
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
       - name: Install and run NodeJSScan
         run: |
-          curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-          sudo apt-get install -y nodejs
-          sudo npm install -g njsscan
+          python -m pip install --upgrade pip
+          pip install njsscan
           njsscan .

@@ -70,6 +70,10 @@ PackageViz uses the following NPM Registry APIs:
 - Registry API (`registry.npmjs.org`) for package information
 - Downloads API (`api.npmjs.org`) for download statistics
 
+## Security
+
+Please see our [Security Policy](SECURITY.md) for reporting security vulnerabilities.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

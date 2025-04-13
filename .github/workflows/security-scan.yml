@@ -1,0 +1,71 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 0 * * 1'  # Run at midnight every Monday
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for gitleaks
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      # Generate package-lock.json and run npm audit
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Generate package-lock.json and run audit
+        run: |
+          npm i --package-lock-only
+          npm audit || true  # Don't fail if audit finds issues
+
+      - name: Detect secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}  # Optional: for pro features
+        with:
+          config-path: .gitleaks.toml  # Will use default if not found
+          enable-git-history-scan: false  # Only scan current state
+          enable-upload-artifact: true
+          enable-summary: true
+        continue-on-error: true  # Don't fail the workflow for new repos
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      # Additional security checks
+      - name: Check untrusted dependencies
+        run: bun pm untrusted
+
+      # Install and run NodeJSScan using pip
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install and run NodeJSScan
+        run: |
+          python -m pip install --upgrade pip
+          pip install njsscan
+          njsscan .

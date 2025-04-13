@@ -1,0 +1,34 @@
+name: 'Dependency Review'
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v3
+        
+      - name: 'Setup Bun'
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+          
+      - name: 'Install Dependencies'
+        run: bun install
+        
+      - name: 'Dependency Review'
+        uses: actions/dependency-review-action@v3
+        
+      # Generate package-lock.json and run npm audit
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Generate package-lock.json and run audit
+        run: |
+          npm i --package-lock-only
+          npm audit

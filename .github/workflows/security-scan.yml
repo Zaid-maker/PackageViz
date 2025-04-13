@@ -22,14 +22,16 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      # Use Node.js and npm for security audits
+      # Generate package-lock.json and run npm audit
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      - name: Run npm audit
-        run: npm audit
+      - name: Generate package-lock.json and run audit
+        run: |
+          npm i --package-lock-only
+          npm audit
 
       - name: Detect secrets
         uses: gitleaks/gitleaks-action@v2

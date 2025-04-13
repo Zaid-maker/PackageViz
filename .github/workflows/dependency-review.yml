@@ -22,11 +22,13 @@ jobs:
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v3
         
-      # Install and use npm for security audit since Bun's audit is not yet available
+      # Generate package-lock.json and run npm audit
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
           
-      - name: Run Security Audit
-        run: npm audit
+      - name: Generate package-lock.json and run audit
+        run: |
+          npm i --package-lock-only
+          npm audit

@@ -4,6 +4,8 @@ updates:
   # Use npm ecosystem for Bun compatibility
   - package-ecosystem: "npm"
     directory: "/"
+    schedule:
+      interval: "daily"
     allow:
       - dependency-type: "all"
     open-pull-requests-limit: 10
@@ -21,6 +23,8 @@ updates:
   # Keep GitHub Actions up to date
   - package-ecosystem: "github-actions"
     directory: "/"
+    schedule:
+      interval: "daily"
     labels:
       - "dependencies"
       - "github-actions"

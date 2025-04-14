@@ -53,15 +53,16 @@ export default function Visualizer() {
 
   const fetchBundleSize = async (pkg) => {
     try {
-      // Use the public API endpoint
+      // Use the npm package size API
       const response = await axios.get(
-        `https://bundlephobia.com/api/pack/${encodeURIComponent(pkg)}`
+        `https://packagephobia.com/v2/api.json?p=${encodeURIComponent(pkg)}`
       );
+      
       return {
-        size: response.data.size,
-        gzip: response.data.gzip,
-        dependencyCount: response.data.dependencyCount,
-        version: response.data.version
+        size: response.data.install.bytes,
+        gzip: response.data.publish.bytes,
+        dependencyCount: response.data.install.dependencies,
+        version: response.data.publish.version
       };
     } catch (err) {
       console.error("Error fetching bundle size:", err);

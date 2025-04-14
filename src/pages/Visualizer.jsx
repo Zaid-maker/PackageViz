@@ -361,28 +361,22 @@ export default function Visualizer() {
                 <div className="mt-8">
                   <h3 className="text-lg font-semibold mb-4">Dependencies</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-medium mb-2">Dependencies ({dependencies.dependencies.length})</h4>
-                      <div className="space-y-1">
-                        {dependencies.dependencies.map(dep => (
-                          <div key={dep} className="text-sm text-gray-600">{dep}</div>
-                        ))}
+                    <div className="p-4 bg-gray-50 rounded-lg text-center">
+                      <h4 className="font-medium mb-2">Dependencies</h4>
+                      <div className="text-3xl font-semibold text-blue-600">
+                        {dependencies.dependencies.length}
                       </div>
                     </div>
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-medium mb-2">Dev Dependencies ({dependencies.devDependencies.length})</h4>
-                      <div className="space-y-1">
-                        {dependencies.devDependencies.map(dep => (
-                          <div key={dep} className="text-sm text-gray-600">{dep}</div>
-                        ))}
+                    <div className="p-4 bg-gray-50 rounded-lg text-center">
+                      <h4 className="font-medium mb-2">Dev Dependencies</h4>
+                      <div className="text-3xl font-semibold text-blue-600">
+                        {dependencies.devDependencies.length}
                       </div>
                     </div>
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <h4 className="font-medium mb-2">Peer Dependencies ({dependencies.peerDependencies.length})</h4>
-                      <div className="space-y-1">
-                        {dependencies.peerDependencies.map(dep => (
-                          <div key={dep} className="text-sm text-gray-600">{dep}</div>
-                        ))}
+                    <div className="p-4 bg-gray-50 rounded-lg text-center">
+                      <h4 className="font-medium mb-2">Peer Dependencies</h4>
+                      <div className="text-3xl font-semibold text-blue-600">
+                        {dependencies.peerDependencies.length}
                       </div>
                     </div>
                   </div>

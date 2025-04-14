@@ -20,7 +20,7 @@ jobs:
         run: bun install
         
       - name: 'Dependency Review'
-        uses: actions/dependency-review-action@v3
+        uses: actions/dependency-review-action@v4
         
       # Generate package-lock.json and run npm audit
       - name: Setup Node.js

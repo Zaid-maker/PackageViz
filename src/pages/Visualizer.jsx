@@ -40,7 +40,7 @@ export default function Visualizer() {
 
     try {
       const response = await axios.get(
-        `https://registry.npmjs.org/-/v1/search?text=${value}&size=5`
+        `/api/npm/-/v1/search?text=${value}&size=5`
       );
       setSuggestions(response.data.objects.map(obj => ({
         name: obj.package.name,
@@ -53,37 +53,21 @@ export default function Visualizer() {
 
   const fetchBundleSize = async (pkg) => {
     try {
-      // Handle @next scope packages differently
-      const isNextPackage = pkg.startsWith('@next/') || pkg === 'next';
-      if (isNextPackage) {
-        // For Next.js packages, we'll try to get the latest stable version
-        const npmResponse = await axios.get(`https://registry.npmjs.org/${pkg}`);
-        const latestVersion = npmResponse.data['dist-tags']?.latest;
-        const response = await axios.get(
-          `https://bundlephobia.com/api/size?package=${pkg}@${latestVersion}`
-        );
-        return {
-          size: response.data.size,
-          gzip: response.data.gzip,
-          dependencyCount: response.data.dependencyCount,
-          version: latestVersion
-        };
-      }
-
+      // Use the public API endpoint
       const response = await axios.get(
-        `https://bundlephobia.com/api/size?package=${pkg}`
+        `https://bundlephobia.com/api/pack/${encodeURIComponent(pkg)}`
       );
       return {
         size: response.data.size,
         gzip: response.data.gzip,
-        dependencyCount: response.data.dependencyCount
+        dependencyCount: response.data.dependencyCount,
+        version: response.data.version
       };
     } catch (err) {
       console.error("Error fetching bundle size:", err);
-      if (err.response?.status === 404) {
-        // Package not found in bundlephobia
+      if (err.response?.status === 404 || err.response?.status === 403) {
         return {
-          error: "Bundle size information not available",
+          error: "Bundle size information not available for this package",
           isError: true
         };
       }
@@ -99,7 +83,7 @@ export default function Visualizer() {
 
     try {
       const [npmResponse, jsdelivrResponse, bundleData] = await Promise.all([
-        axios.get(`https://registry.npmjs.org/${packageName}`),
+        axios.get(`/api/npm/${packageName}`),
         axios.get(`https://data.jsdelivr.com/v1/package/npm/${packageName}/stats`),
         fetchBundleSize(packageName)
       ]);

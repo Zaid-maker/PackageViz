@@ -53,6 +53,23 @@ export default function Visualizer() {
 
   const fetchBundleSize = async (pkg) => {
     try {
+      // Handle @next scope packages differently
+      const isNextPackage = pkg.startsWith('@next/') || pkg === 'next';
+      if (isNextPackage) {
+        // For Next.js packages, we'll try to get the latest stable version
+        const npmResponse = await axios.get(`https://registry.npmjs.org/${pkg}`);
+        const latestVersion = npmResponse.data['dist-tags']?.latest;
+        const response = await axios.get(
+          `https://bundlephobia.com/api/size?package=${pkg}@${latestVersion}`
+        );
+        return {
+          size: response.data.size,
+          gzip: response.data.gzip,
+          dependencyCount: response.data.dependencyCount,
+          version: latestVersion
+        };
+      }
+
       const response = await axios.get(
         `https://bundlephobia.com/api/size?package=${pkg}`
       );
@@ -63,6 +80,13 @@ export default function Visualizer() {
       };
     } catch (err) {
       console.error("Error fetching bundle size:", err);
+      if (err.response?.status === 404) {
+        // Package not found in bundlephobia
+        return {
+          error: "Bundle size information not available",
+          isError: true
+        };
+      }
       return null;
     }
   };
@@ -334,7 +358,7 @@ export default function Visualizer() {
                   </div>
                 </div>
 
-                {bundleSize && (
+                {bundleSize && !bundleSize.isError && (
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h3 className="text-lg font-semibold mb-4">Bundle Analysis</h3>
                     <div className="grid grid-cols-2 gap-4">
@@ -353,6 +377,17 @@ export default function Visualizer() {
                         </div>
                       </div>
                     </div>
+                    {bundleSize.version && (
+                      <div className="mt-2 text-sm text-gray-500 text-center">
+                        Size for version {bundleSize.version}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {bundleSize?.isError && (
+                  <div className="bg-yellow-50 p-4 rounded-lg text-yellow-700 text-sm flex items-center gap-2">
+                    <ExclamationTriangleIcon className="w-5 h-5" />
+                    {bundleSize.error}
                   </div>
                 )}
               </div>

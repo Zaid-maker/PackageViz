@@ -18,7 +18,7 @@ updates:
       prefix: "deps"
       include: "scope"
     reviewers:
-      - "Zaid-amker"
+      - "Zaid-maker"
 
   # Keep GitHub Actions up to date
   - package-ecosystem: "github-actions"

@@ -15,6 +15,11 @@ export default defineConfig({
           'Origin': 'https://bundlephobia.com'
         }
       },
+      '/api/packagephobia': {
+        target: 'https://packagephobia.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/packagephobia/, ''),
+      },
       '/api/npm': {
         target: 'https://registry.npmjs.org',
         changeOrigin: true,

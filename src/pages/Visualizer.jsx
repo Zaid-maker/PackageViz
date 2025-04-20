@@ -53,9 +53,8 @@ export default function Visualizer() {
 
   const fetchBundleSize = async (pkg) => {
     try {
-      // Use the npm package size API
       const response = await axios.get(
-        `https://packagephobia.com/v2/api.json?p=${encodeURIComponent(pkg)}`
+        `/api/packagephobia/v2/api.json?p=${encodeURIComponent(pkg)}`
       );
       
       return {

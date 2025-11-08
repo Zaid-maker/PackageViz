@@ -7,7 +7,6 @@ import npmService from '../services/npmService';
 export function usePackageData() {
   const [packageData, setPackageData] = useState(null);
   const [statsData, setStatsData] = useState(null);
-  const [bundleSize, setBundleSize] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -21,10 +20,9 @@ export function usePackageData() {
     setError(null);
     setPackageData(null);
     setStatsData(null);
-    setBundleSize(null);
 
     try {
-      // Fetch critical data first (package info and stats)
+      // Fetch package info and download stats
       const [packageInfo, downloadStats] = await Promise.all([
         npmService.getPackageInfo(packageName),
         npmService.getDownloadStats(packageName),
@@ -41,13 +39,6 @@ export function usePackageData() {
         downloads: downloadStats.total || 0,
       });
       setStatsData(processedStats);
-
-      // Set bundle size to unavailable message
-      // (External APIs have CORS restrictions)
-      setBundleSize({
-        error: 'Bundle size analysis requires a backend server',
-        isError: true,
-      });
     } catch (err) {
       console.error('Error fetching package data:', err);
       setError(err.message || 'Failed to fetch package data');
@@ -59,14 +50,12 @@ export function usePackageData() {
   const reset = useCallback(() => {
     setPackageData(null);
     setStatsData(null);
-    setBundleSize(null);
     setError(null);
   }, []);
 
   return {
     packageData,
     statsData,
-    bundleSize,
     loading,
     error,
     fetchPackageData,

@@ -1,7 +1,4 @@
 import {
-  ScaleIcon,
-  CubeTransparentIcon,
-  ExclamationTriangleIcon,
   CalendarIcon,
   UserGroupIcon,
   TagIcon,
@@ -180,62 +177,6 @@ function ExternalLink({ href, label, icon }) {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
       </svg>
     </a>
-  );
-}
-
-export function BundleInfo({ bundleSize }) {
-  if (!bundleSize) return null;
-
-  if (bundleSize.isError) {
-    return (
-      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <div className="flex items-start gap-3">
-          <ExclamationTriangleIcon className="w-5 h-5 flex-shrink-0 text-blue-600 mt-0.5" />
-          <div>
-            <h4 className="text-sm font-semibold text-blue-900 mb-1">Bundle Size Analysis</h4>
-            <p className="text-sm text-blue-700">
-              Bundle size information is currently unavailable. This feature requires API access that has CORS restrictions in the browser.
-            </p>
-            <p className="text-xs text-blue-600 mt-2">
-              💡 Tip: Visit <a href="https://bundlephobia.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-800">bundlephobia.com</a> directly to check bundle sizes.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-gray-50 p-4 rounded-lg">
-      <h3 className="text-lg font-semibold mb-4">Bundle Analysis</h3>
-      <div className="grid grid-cols-2 gap-4">
-        <BundleCard
-          icon={<ScaleIcon className="w-6 h-6 mx-auto text-blue-500 mb-2" />}
-          label="Install Size"
-          value={bundleSize.install.pretty || `${(bundleSize.install.bytes / 1024).toFixed(1)} KB`}
-        />
-        <BundleCard
-          icon={<CubeTransparentIcon className="w-6 h-6 mx-auto text-blue-500 mb-2" />}
-          label="Publish Size"
-          value={bundleSize.publish.pretty || `${(bundleSize.publish.bytes / 1024).toFixed(1)} KB`}
-        />
-      </div>
-      {bundleSize.version && (
-        <div className="mt-3 text-sm text-gray-500 text-center">
-          Size for version {bundleSize.version}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function BundleCard({ icon, label, value }) {
-  return (
-    <div className="text-center p-4 bg-white rounded-lg shadow-sm">
-      {icon}
-      <div className="text-sm text-gray-500">{label}</div>
-      <div className="font-semibold">{value}</div>
-    </div>
   );
 }
 

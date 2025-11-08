@@ -4,7 +4,7 @@ import { ArrowPathIcon, ExclamationTriangleIcon } from "@heroicons/react/24/soli
 import { useToast } from "../ToastContext";
 import { usePackageData, usePackageSearch } from "../hooks/usePackageData";
 import { SearchBar } from "../components/package/SearchBar";
-import { PackageInfo, BundleInfo, DependenciesInfo } from "../components/package/PackageInfo";
+import { PackageInfo, DependenciesInfo } from "../components/package/PackageInfo";
 import { LineChart, BarChart, PieChart } from "../components/charts/ChartComponents";
 
 export default function Visualizer() {
@@ -19,7 +19,6 @@ export default function Visualizer() {
   const {
     packageData,
     statsData,
-    bundleSize,
     loading,
     error,
     fetchPackageData,
@@ -131,10 +130,7 @@ export default function Visualizer() {
         {!loading && packageData && statsData && (
           <div className="space-y-8 animate-fade-in">
             <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <PackageInfo packageData={packageData} />
-                <BundleInfo bundleSize={bundleSize} />
-              </div>
+              <PackageInfo packageData={packageData} />
 
               <DependenciesInfo dependencies={packageData} />
 

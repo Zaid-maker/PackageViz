@@ -34,11 +34,20 @@ const npmService = {
       const latestVersion = data['dist-tags']?.latest;
       const latestVersionData = data.versions[latestVersion] || {};
 
+      // Calculate some useful metadata
+      const totalVersions = Object.keys(data.versions).length;
+      const createdDate = data.time?.created ? new Date(data.time.created) : null;
+      const modifiedDate = data.time?.modified ? new Date(data.time.modified) : null;
+      const maintainers = data.maintainers || [];
+      
+      // Get all available npm tags
+      const distTags = data['dist-tags'] || {};
+
       return {
         name: data.name,
         description: data.description || 'No description available',
         version: latestVersion,
-        author: data.author?.name || data.maintainers?.[0]?.name || 'Unknown',
+        author: data.author?.name || maintainers[0]?.name || 'Unknown',
         license: data.license || 'Unknown',
         repository: data.repository?.url || null,
         homepage: data.homepage || null,
@@ -48,6 +57,14 @@ const npmService = {
         peerDependencies: latestVersionData.peerDependencies || {},
         time: data.time,
         versions: Object.keys(data.versions),
+        // Additional metadata
+        totalVersions,
+        createdDate,
+        modifiedDate,
+        maintainers: maintainers.map(m => m.name),
+        distTags,
+        readme: data.readme || null,
+        bugs: data.bugs?.url || null,
       };
     } catch (error) {
       console.error('Get package info error:', error);

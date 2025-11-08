@@ -26,17 +26,20 @@ Make sure you have [Bun](https://bun.sh/) installed on your machine.
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/package-visualizer.git
 cd package-visualizer
 ```
 
 2. Install dependencies:
+
 ```bash
 bun install
 ```
 
 3. Start the development server:
+
 ```bash
 bun dev
 ```
@@ -57,18 +60,58 @@ The application will be available at `http://localhost:5173`
 
 ```
 src/
-  ├── components/      # Reusable UI components
-  ├── pages/          # Page components
-  ├── hooks/          # Custom React hooks
-  ├── assets/         # Static assets
-  └── context/        # React context providers
+  ├── components/          # Reusable UI components
+  │   ├── charts/         # Chart components (Line, Bar, Pie)
+  │   ├── package/        # Package-related components
+  │   ├── Navbar.jsx      # Navigation bar
+  │   ├── Footer.jsx      # Footer component
+  │   └── Layout.jsx      # Page layout wrapper
+  ├── pages/              # Page components
+  │   ├── Landing.jsx     # Landing page
+  │   └── Visualizer.jsx  # Main visualizer page
+  ├── hooks/              # Custom React hooks
+  │   ├── useNpmStats.js  # NPM registry stats hook
+  │   └── usePackageData.js # Package data fetching hook
+  ├── services/           # API service layer
+  │   ├── api.js          # Axios instance with interceptors
+  │   └── npmService.js   # NPM API calls
+  ├── assets/             # Static assets
+  ├── App.jsx             # Root application component
+  ├── ToastContext.jsx    # Toast notification context
+  └── main.jsx            # Application entry point
 ```
+
+## Architecture
+
+### Service Layer
+
+The application uses a clean service layer architecture:
+
+- **API Client**: Configured axios instance with interceptors for error handling
+- **NPM Service**: Centralized API calls to NPM registry and related services
+- **Custom Hooks**: Reusable data fetching and state management logic
+
+### Key Features
+
+- **Separation of Concerns**: Business logic separated from UI components
+- **Error Handling**: Centralized error handling with axios interceptors
+- **Custom Hooks**: Data fetching logic abstracted into reusable hooks
+- **Component Composition**: Small, focused components for better maintainability
 
 ## API Integration
 
-PackageViz uses the following NPM Registry APIs:
-- Registry API (`registry.npmjs.org`) for package information
-- Downloads API (`api.npmjs.org`) for download statistics
+PackageViz integrates with multiple APIs:
+
+- **NPM Registry** (`registry.npmjs.org`) - Package metadata and information
+- **jsDelivr** (`data.jsdelivr.com`) - Download statistics
+- **Packagephobia** (`packagephobia.com`) - Bundle size information
+
+### Proxy Configuration
+
+The Vite proxy handles CORS issues for:
+
+- `/api/npm` → NPM Registry
+- `/api/packagephobia` → Packagephobia API
 
 ## Security
 

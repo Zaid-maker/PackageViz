@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import npmService from '../services/npmService';
 
 export function useNpmStats() {
   const [stats, setStats] = useState({
@@ -13,23 +13,13 @@ export function useNpmStats() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Use search API to get package count - more reliable than replicate API
-        const searchResponse = await axios.get('https://registry.npmjs.org/-/v1/search?text=keywords:javascript&size=1');
-        const totalPackages = searchResponse.data.total;
-
-        // Get downloads for last day
-        const downloadsResponse = await axios.get('https://api.npmjs.org/downloads/point/last-day');
-        const dailyDownloads = downloadsResponse.data.downloads;
-
-        // Calculate active users and data points
-        const activeUsers = Math.round(totalPackages * 0.05); // ~5% of packages have active maintainers
-        const estimatedDataPoints = totalPackages * 5 * 365; // avg 5 versions per package × 365 days
+        const data = await npmService.getRegistryStats();
 
         setStats({
-          packages: formatNumber(totalPackages),
-          downloads: formatNumber(dailyDownloads),
-          users: formatNumber(activeUsers),
-          dataPoints: formatNumber(estimatedDataPoints),
+          packages: formatNumber(data.totalPackages),
+          downloads: formatNumber(data.dailyDownloads),
+          users: formatNumber(data.activeUsers),
+          dataPoints: formatNumber(data.dataPoints),
         });
       } catch (error) {
         console.error('Error fetching NPM stats:', error);

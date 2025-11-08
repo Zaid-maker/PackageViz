@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ChartBarIcon,
-  MagnifyingGlassIcon,
-  ArrowTrendingUpIcon,
-  CodeBracketIcon,
-  CloudArrowDownIcon,
-  ChartPieIcon,
-} from '@heroicons/react/24/outline';
+  BarChart3,
+  Search,
+  TrendingUp,
+  Code,
+  Download,
+  PieChart,
+} from 'lucide-react';
 import { useNpmStats } from '../hooks/useNpmStats';
 
 export default function Landing() {
@@ -24,17 +24,17 @@ export default function Landing() {
     {
       title: "Package Analytics",
       description: "Analyze NPM package statistics with interactive visualizations",
-      icon: ChartBarIcon,
+      icon: BarChart3,
     },
     {
       title: "Version Tracking",
       description: "Track package versions and their adoption rates over time",
-      icon: ArrowTrendingUpIcon,
+      icon: TrendingUp,
     },
     {
       title: "Instant Search",
       description: "Search and compare package information in real-time",
-      icon: MagnifyingGlassIcon,
+      icon: Search,
     },
   ];
 
@@ -42,17 +42,17 @@ export default function Landing() {
     {
       title: 'Real-time Package Stats',
       description: 'Get instant access to download statistics and version adoption rates.',
-      icon: CloudArrowDownIcon,
+      icon: Download,
     },
     {
       title: 'Advanced Visualizations',
       description: 'View package data through interactive charts and visualizations.',
-      icon: ChartPieIcon,
+      icon: PieChart,
     },
     {
       title: 'Developer Friendly',
       description: 'Built by developers, for developers, with a focus on usability.',
-      icon: CodeBracketIcon,
+      icon: Code,
     },
   ];
 

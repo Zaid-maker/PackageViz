@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { ArrowPathIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
+import { LoaderCircle, AlertTriangle } from "lucide-react";
 import { useToast } from "../ToastContext";
 import { usePackageData, usePackageSearch } from "../hooks/usePackageData";
 import { SearchBar } from "../components/package/SearchBar";
@@ -115,14 +115,14 @@ export default function Visualizer() {
 
         {error && !loading && (
           <div className="p-4 mb-4 bg-red-100 text-red-700 rounded-lg flex items-center gap-2">
-            <ExclamationTriangleIcon className="w-5 h-5" />
+            <AlertTriangle className="w-5 h-5" />
             {error}
           </div>
         )}
 
         {loading && (
           <div className="text-center py-16">
-            <ArrowPathIcon className="w-12 h-12 mx-auto text-blue-500 animate-spin" />
+            <LoaderCircle className="w-12 h-12 mx-auto text-blue-500 animate-spin" />
             <p className="mt-4 text-gray-600">Loading package data...</p>
           </div>
         )}

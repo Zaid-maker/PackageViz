@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { Search } from 'lucide-react';
 
 export function SearchBar({ 
   onSearch, 
@@ -58,7 +58,7 @@ export function SearchBar({
               placeholder="Enter npm package name (e.g., react, express, lodash)"
               className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <MagnifyingGlassIcon className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           </div>
 
           {showSuggestions && suggestions.length > 0 && (

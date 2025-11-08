@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { CubeTransparentIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Package, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const location = useLocation();
@@ -17,7 +17,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <Link to="/" className="flex items-center">
-              <CubeTransparentIcon className="h-8 w-8 text-blue-500" />
+              <Package className="h-8 w-8 text-blue-500" />
               <span className="ml-2 text-xl font-bold text-gray-900">PackageViz</span>
             </Link>
           </div>
@@ -48,9 +48,9 @@ export default function Navbar() {
             >
               <span className="sr-only">Open main menu</span>
               {isMenuOpen ? (
-                <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                <X className="block h-6 w-6" aria-hidden="true" />
               ) : (
-                <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                <Menu className="block h-6 w-6" aria-hidden="true" />
               )}
             </button>
           </div>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { CubeTransparentIcon } from '@heroicons/react/24/outline';
+import { Package } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -28,7 +28,7 @@ export default function Footer() {
           {/* Logo and description */}
           <div className="space-y-8 xl:col-span-1">
             <Link to="/" className="flex items-center">
-              <CubeTransparentIcon className="h-8 w-8 text-blue-500" />
+              <Package className="h-8 w-8 text-blue-500" />
               <span className="ml-2 text-xl font-bold text-gray-900">PackageViz</span>
             </Link>
             <p className="text-gray-500 text-base">

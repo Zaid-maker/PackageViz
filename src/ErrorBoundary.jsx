@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
+import { AlertTriangle } from 'lucide-react';
 import { useToast } from './ToastContext';
 
 class ErrorBoundary extends Component {
@@ -21,7 +21,7 @@ class ErrorBoundary extends Component {
     if (this.state.hasError) {
       return (
         <div className="p-4 bg-red-50 text-red-700 rounded-lg mt-4 flex items-center gap-2">
-          <ExclamationTriangleIcon className="w-5 h-5" />
+          <AlertTriangle className="w-5 h-5" />
           Something went wrong. Please try again.
         </div>
       );

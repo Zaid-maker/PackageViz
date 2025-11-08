@@ -1,11 +1,12 @@
 import {
-  CalendarIcon,
-  UserGroupIcon,
-  TagIcon,
-  CubeIcon,
-  LinkIcon,
-  BugAntIcon,
-} from '@heroicons/react/24/solid';
+  Calendar,
+  Users,
+  Tag,
+  Package,
+  Link,
+  Bug,
+  ExternalLink,
+} from 'lucide-react';
 
 export function PackageInfo({ packageData }) {
   const formatDate = (date) => {
@@ -39,12 +40,12 @@ export function PackageInfo({ packageData }) {
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <StatCard 
-          icon={<TagIcon className="w-5 h-5 text-blue-500" />}
+          icon={<Tag className="w-5 h-5 text-blue-500" />}
           label="Version" 
           value={packageData.version} 
         />
         <StatCard 
-          icon={<CubeIcon className="w-5 h-5 text-green-500" />}
+          icon={<Package className="w-5 h-5 text-green-500" />}
           label="Total Versions" 
           value={packageData.totalVersions || packageData.versions?.length || 0} 
         />
@@ -67,7 +68,7 @@ export function PackageInfo({ packageData }) {
       {/* Detailed Information Sections */}
       <div className="space-y-6">
         {/* Publish Information */}
-        <InfoSection icon={<CalendarIcon className="w-5 h-5" />} title="Publish Information">
+        <InfoSection icon={<Calendar className="w-5 h-5" />} title="Publish Information">
           <InfoRow label="First Published" value={formatDate(packageData.createdDate)} />
           <InfoRow label="Last Updated" value={formatDate(packageData.modifiedDate)} />
           <InfoRow label="Total Downloads" value={packageData.downloads?.toLocaleString() || 'N/A'} />
@@ -75,7 +76,7 @@ export function PackageInfo({ packageData }) {
 
         {/* Maintainers */}
         {packageData.maintainers && packageData.maintainers.length > 0 && (
-          <InfoSection icon={<UserGroupIcon className="w-5 h-5" />} title="Maintainers">
+          <InfoSection icon={<Users className="w-5 h-5" />} title="Maintainers">
             <div className="flex flex-wrap gap-2">
               {packageData.maintainers.map((maintainer, index) => (
                 <span key={index} className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
@@ -88,7 +89,7 @@ export function PackageInfo({ packageData }) {
 
         {/* Distribution Tags */}
         {packageData.distTags && Object.keys(packageData.distTags).length > 1 && (
-          <InfoSection icon={<TagIcon className="w-5 h-5" />} title="Distribution Tags">
+          <InfoSection icon={<Tag className="w-5 h-5" />} title="Distribution Tags">
             <div className="space-y-1">
               {Object.entries(packageData.distTags).map(([tag, version]) => (
                 <InfoRow key={tag} label={tag} value={version} />
@@ -99,7 +100,7 @@ export function PackageInfo({ packageData }) {
 
         {/* Keywords */}
         {packageData.keywords && packageData.keywords.length > 0 && (
-          <InfoSection icon={<TagIcon className="w-5 h-5" />} title="Keywords">
+          <InfoSection icon={<Tag className="w-5 h-5" />} title="Keywords">
             <div className="flex flex-wrap gap-2">
               {packageData.keywords.map((keyword, index) => (
                 <span key={index} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
@@ -111,17 +112,17 @@ export function PackageInfo({ packageData }) {
         )}
 
         {/* Links */}
-        <InfoSection icon={<LinkIcon className="w-5 h-5" />} title="Links">
+        <InfoSection icon={<Link className="w-5 h-5" />} title="Links">
           <div className="space-y-2">
-            <ExternalLink href={npmUrl} label="NPM Package" />
+            <ExternalLinkComponent href={npmUrl} label="NPM Package" />
             {packageData.repository && (
-              <ExternalLink href={cleanRepoUrl(packageData.repository)} label="Repository" />
+              <ExternalLinkComponent href={cleanRepoUrl(packageData.repository)} label="Repository" />
             )}
             {packageData.homepage && (
-              <ExternalLink href={packageData.homepage} label="Homepage" />
+              <ExternalLinkComponent href={packageData.homepage} label="Homepage" />
             )}
             {packageData.bugs && (
-              <ExternalLink href={packageData.bugs} label="Report Issues" icon={<BugAntIcon className="w-4 h-4" />} />
+              <ExternalLinkComponent href={packageData.bugs} label="Report Issues" icon={<Bug className="w-4 h-4" />} />
             )}
           </div>
         </InfoSection>
@@ -163,7 +164,7 @@ function InfoRow({ label, value }) {
   );
 }
 
-function ExternalLink({ href, label, icon }) {
+function ExternalLinkComponent({ href, label, icon }) {
   return (
     <a 
       href={href}
@@ -171,11 +172,9 @@ function ExternalLink({ href, label, icon }) {
       rel="noopener noreferrer"
       className="flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors"
     >
-      {icon || <LinkIcon className="w-4 h-4" />}
+      {icon || <Link className="w-4 h-4" />}
       <span>{label}</span>
-      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-      </svg>
+      <ExternalLink className="w-3 h-3" />
     </a>
   );
 }

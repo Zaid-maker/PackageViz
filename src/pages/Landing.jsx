@@ -7,6 +7,14 @@ import {
   Code,
   Download,
   PieChart,
+  Zap,
+  Shield,
+  Clock,
+  ArrowRight,
+  CheckCircle2,
+  Sparkles,
+  Users,
+  Package,
 } from 'lucide-react';
 import { useNpmStats } from '../hooks/useNpmStats';
 
@@ -14,46 +22,74 @@ export default function Landing() {
   const { stats, loading } = useNpmStats();
 
   const statsItems = [
-    { id: 1, name: 'NPM Packages', value: stats.packages },
-    { id: 2, name: 'Daily Downloads', value: stats.downloads },
-    { id: 3, name: 'Active Users', value: stats.users },
-    { id: 4, name: 'Data Points', value: stats.dataPoints },
+    { id: 1, name: 'NPM Packages', value: stats.packages, icon: Package },
+    { id: 2, name: 'Daily Downloads', value: stats.downloads, icon: Download },
+    { id: 3, name: 'Active Users', value: stats.users, icon: Users },
+    { id: 4, name: 'Data Points', value: stats.dataPoints, icon: BarChart3 },
   ];
 
   const features = [
     {
-      title: "Package Analytics",
-      description: "Analyze NPM package statistics with interactive visualizations",
+      title: "Real-Time Analytics",
+      description: "Get instant access to package download statistics and trends across all NPM packages",
       icon: BarChart3,
+      color: "from-blue-500 to-cyan-500",
     },
     {
-      title: "Version Tracking",
-      description: "Track package versions and their adoption rates over time",
+      title: "Version Insights",
+      description: "Track version adoption rates and see which versions are most popular in the ecosystem",
       icon: TrendingUp,
+      color: "from-purple-500 to-pink-500",
     },
     {
-      title: "Instant Search",
-      description: "Search and compare package information in real-time",
+      title: "Smart Search",
+      description: "Lightning-fast package search with intelligent autocomplete and suggestions",
       icon: Search,
+      color: "from-orange-500 to-red-500",
+    },
+    {
+      title: "Dependency Analysis",
+      description: "Understand package dependencies and their impact on your project",
+      icon: Code,
+      color: "from-green-500 to-emerald-500",
+    },
+    {
+      title: "Interactive Charts",
+      description: "Visualize data through beautiful, interactive charts and graphs",
+      icon: PieChart,
+      color: "from-indigo-500 to-blue-500",
+    },
+    {
+      title: "Lightning Fast",
+      description: "Optimized performance ensures you get the data you need instantly",
+      icon: Zap,
+      color: "from-yellow-500 to-orange-500",
     },
   ];
 
   const benefits = [
     {
-      title: 'Real-time Package Stats',
-      description: 'Get instant access to download statistics and version adoption rates.',
-      icon: Download,
+      title: 'Make Informed Decisions',
+      description: 'Choose the right packages for your project based on real data and trends.',
+      icon: CheckCircle2,
     },
     {
-      title: 'Advanced Visualizations',
-      description: 'View package data through interactive charts and visualizations.',
-      icon: PieChart,
+      title: 'Save Development Time',
+      description: 'Quickly compare packages and understand their ecosystem without manual research.',
+      icon: Clock,
     },
     {
-      title: 'Developer Friendly',
-      description: 'Built by developers, for developers, with a focus on usability.',
-      icon: Code,
+      title: 'Stay Updated',
+      description: 'Monitor your dependencies and stay informed about version releases and adoption.',
+      icon: Shield,
     },
+  ];
+
+  const popularPackages = [
+    { name: 'react', downloads: '20M+', trend: '+12%' },
+    { name: 'express', downloads: '15M+', trend: '+8%' },
+    { name: 'axios', downloads: '18M+', trend: '+15%' },
+    { name: 'lodash', downloads: '25M+', trend: '+5%' },
   ];
 
   const containerVariants = {
@@ -61,8 +97,8 @@ export default function Landing() {
     visible: { 
       opacity: 1,
       transition: { 
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       } 
     }
   };
@@ -76,196 +112,307 @@ export default function Landing() {
     }
   };
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 60 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-gray-100">
-      {/* Hero Section */}
-      <motion.div
-        className="relative overflow-hidden"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32">
-            <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-              <motion.div
-                className="sm:text-center lg:text-left"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-              >
-                <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                  <span className="block">Visualize and analyze</span>
-                  <span className="block text-blue-600">NPM packages</span>
-                </h1>
-                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                  Discover insights about NPM packages through interactive visualizations. 
-                  Track downloads, analyze version adoption, and make informed decisions.
-                </p>
-                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <div className="rounded-md shadow">
-                    <Link
-                      to="/visualize"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
-                    >
-                      Get Started
-                    </Link>
-                  </div>
-                  <div className="mt-3 sm:mt-0 sm:ml-3">
-                    <a
-                      href="https://www.npmjs.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 md:py-4 md:text-lg md:px-10"
-                    >
-                      Browse NPM
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            </main>
-          </div>
+    <div className="bg-white overflow-hidden">
+      {/* Hero Section with Gradient Background */}
+      <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 overflow-hidden">
+        {/* Animated Background Shapes */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute -top-40 -right-40 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/30 rounded-full blur-3xl"
+            animate={{
+              scale: [1.2, 1, 1.2],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
         </div>
-      </motion.div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+          <motion.div
+            className="text-center"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
+            {/* Badge */}
+            <motion.div
+              variants={itemVariants}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white mb-8 border border-white/20"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span className="text-sm font-medium">The Ultimate NPM Package Visualizer</span>
+            </motion.div>
+
+            {/* Main Heading */}
+            <motion.h1
+              variants={itemVariants}
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 tracking-tight"
+            >
+              Visualize NPM Packages
+              <br />
+              <span className="bg-gradient-to-r from-blue-200 via-cyan-200 to-teal-200 bg-clip-text text-transparent">
+                Like Never Before
+              </span>
+            </motion.h1>
+
+            {/* Subheading */}
+            <motion.p
+              variants={itemVariants}
+              className="mt-6 max-w-2xl mx-auto text-xl text-blue-100 leading-relaxed"
+            >
+              Discover insights, track downloads, analyze dependencies, and make data-driven decisions 
+              with our powerful visualization tools.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div
+              variants={itemVariants}
+              className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center"
+            >
+              <Link
+                to="/visualize"
+                className="group relative inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 rounded-xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-200"
+              >
+                Start Visualizing
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <a
+                href="#features"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-xl font-semibold text-lg border-2 border-white/20 hover:bg-white/20 transition-all duration-200"
+              >
+                Learn More
+              </a>
+            </motion.div>
+
+            {/* Popular Packages Preview */}
+            <motion.div
+              variants={itemVariants}
+              className="mt-16 flex flex-wrap justify-center gap-4"
+            >
+              <span className="text-blue-200 text-sm font-medium">Popular packages:</span>
+              {popularPackages.map((pkg) => (
+                <Link
+                  key={pkg.name}
+                  to={`/visualize?package=${pkg.name}`}
+                  className="group px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-200"
+                >
+                  <span className="text-white font-mono text-sm">{pkg.name}</span>
+                  <span className="ml-2 text-blue-200 text-xs">{pkg.downloads}</span>
+                  <span className="ml-1 text-green-300 text-xs">{pkg.trend}</span>
+                </Link>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
 
       {/* Stats Section */}
       <motion.div
-        className="bg-blue-600 py-16"
-        variants={containerVariants}
+        className="relative -mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-            {statsItems.map((stat) => (
-              <motion.div
-                key={stat.id}
-                className="text-center"
-                variants={itemVariants}
-              >
-                <motion.div
-                  className="text-4xl font-extrabold text-white"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  {loading ? (
-                    <div className="h-8 w-24 mx-auto bg-blue-500/50 animate-pulse rounded"></div>
-                  ) : (
-                    stat.value
-                  )}
-                </motion.div>
-                <p className="mt-2 text-base font-medium text-blue-100">
-                  {stat.name}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {statsItems.map((stat) => (
+            <motion.div
+              key={stat.id}
+              variants={itemVariants}
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+              className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl">
+                  <stat.icon className="w-6 h-6 text-white" />
+                </div>
+              </div>
+              <div className="text-3xl font-bold text-gray-900">
+                {loading ? (
+                  <div className="h-8 w-20 bg-gray-200 animate-pulse rounded"></div>
+                ) : (
+                  stat.value
+                )}
+              </div>
+              <p className="mt-1 text-sm font-medium text-gray-500">{stat.name}</p>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
 
       {/* Features Section */}
       <motion.div
-        className="py-16 bg-white"
-        variants={containerVariants}
+        id="features"
+        className="py-24 bg-gradient-to-b from-white to-gray-50"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
+        variants={fadeInUp}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">Features</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Better way to analyze packages
-            </p>
+          <div className="text-center mb-16">
+            <motion.div
+              variants={itemVariants}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-full text-sm font-semibold mb-4"
+            >
+              <Sparkles className="w-4 h-4" />
+              Features
+            </motion.div>
+            <motion.h2
+              variants={itemVariants}
+              className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4"
+            >
+              Everything You Need
+            </motion.h2>
+            <motion.p
+              variants={itemVariants}
+              className="text-xl text-gray-600 max-w-2xl mx-auto"
+            >
+              Powerful features to help you understand and analyze NPM packages
+            </motion.p>
           </div>
 
-          <div className="mt-10">
-            <div className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
-              {features.map((feature) => (
-                <motion.div
-                  key={feature.title}
-                  className="relative"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <dt>
-                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-blue-500 text-white">
-                      <feature.icon className="h-6 w-6" aria-hidden="true" />
-                    </div>
-                    <p className="ml-16 text-lg leading-6 font-medium text-gray-900">{feature.title}</p>
-                  </dt>
-                  <dd className="mt-2 ml-16 text-base text-gray-500">{feature.description}</dd>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={containerVariants}
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                variants={itemVariants}
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100"
+              >
+                <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${feature.color} mb-6`}>
+                  <feature.icon className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ArrowRight className="w-5 h-5 text-blue-600" />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </motion.div>
 
       {/* Benefits Section */}
       <motion.div
-        className="py-16 bg-gray-50"
-        variants={containerVariants}
+        className="py-24 bg-white"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
+        variants={fadeInUp}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center mb-12">
-            <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">Benefits</h2>
-            <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-              Why choose PackageViz?
-            </p>
+          <div className="text-center mb-16">
+            <motion.h2
+              variants={itemVariants}
+              className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4"
+            >
+              Why Developers Love PackageViz
+            </motion.h2>
+            <motion.p
+              variants={itemVariants}
+              className="text-xl text-gray-600 max-w-2xl mx-auto"
+            >
+              Join thousands of developers making smarter package decisions
+            </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            variants={containerVariants}
+          >
             {benefits.map((benefit) => (
               <motion.div
                 key={benefit.title}
-                className="bg-white rounded-lg shadow-sm p-6"
                 variants={itemVariants}
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                className="relative bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-100"
               >
-                <div className="flex items-center justify-center w-12 h-12 rounded-md bg-blue-500 text-white mb-4">
-                  <benefit.icon className="h-6 w-6" />
+                <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white mb-6 shadow-lg">
+                  <benefit.icon className="w-8 h-8" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
-                <p className="text-gray-500">{benefit.description}</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
+                <p className="text-gray-700 leading-relaxed">{benefit.description}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </motion.div>
 
       {/* CTA Section */}
       <motion.div
-        className="bg-blue-600 py-16"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
+        className="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 py-24 overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        variants={fadeInUp}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-              Ready to start analyzing packages?
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }} />
+        </div>
+
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div variants={itemVariants}>
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-white mb-6">
+              Ready to Start Exploring?
             </h2>
-            <p className="mt-4 text-lg leading-6 text-blue-100">
-              Join thousands of developers who use PackageViz to make informed decisions.
+            <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
+              Join thousands of developers who use PackageViz to make informed decisions about their dependencies.
             </p>
             <motion.div
-              className="mt-8 flex justify-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Link
                 to="/visualize"
-                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 md:py-4 md:text-lg md:px-10"
+                className="inline-flex items-center gap-3 px-10 py-5 bg-white text-blue-600 rounded-2xl font-bold text-lg shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 transition-all duration-200"
               >
-                Get Started
+                Get Started for Free
+                <ArrowRight className="w-6 h-6" />
               </Link>
             </motion.div>
-          </div>
+            <p className="mt-6 text-sm text-blue-200">
+              No sign-up required • Completely free • Open source
+            </p>
+          </motion.div>
         </div>
       </motion.div>
     </div>

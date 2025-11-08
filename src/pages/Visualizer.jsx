@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { ArrowPathIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { useToast } from "../ToastContext";
 import { usePackageData, usePackageSearch } from "../hooks/usePackageData";
@@ -7,7 +8,11 @@ import { PackageInfo, BundleInfo, DependenciesInfo } from "../components/package
 import { LineChart, BarChart, PieChart } from "../components/charts/ChartComponents";
 
 export default function Visualizer() {
-  const [activeTab, setActiveTab] = useState("line");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState(() => {
+    // Initialize from URL or default to "line"
+    return searchParams.get('chart') || 'line';
+  });
   const { showToast } = useToast();
   
   // Use custom hooks for data management
@@ -27,6 +32,14 @@ export default function Visualizer() {
     clearSuggestions,
   } = usePackageSearch();
 
+  // Load package from URL on mount
+  useEffect(() => {
+    const packageFromUrl = searchParams.get('package');
+    if (packageFromUrl) {
+      fetchPackageData(packageFromUrl);
+    }
+  }, []); // Only run on mount
+
   // Show error toast when error changes
   useEffect(() => {
     if (error && !loading) {
@@ -40,7 +53,12 @@ export default function Visualizer() {
       return;
     }
 
-    fetchPackageData(packageName.trim());
+    const trimmedPackage = packageName.trim();
+    // Update URL with package name, preserve chart
+    const params = { package: trimmedPackage };
+    if (activeTab !== 'line') params.chart = activeTab;
+    setSearchParams(params);
+    fetchPackageData(trimmedPackage);
   };
 
   const handleInputChange = (value) => {
@@ -53,7 +71,21 @@ export default function Visualizer() {
 
   const handleSuggestionSelect = (packageName) => {
     clearSuggestions();
+    // Update URL with package name, preserve chart
+    const params = { package: packageName };
+    if (activeTab !== 'line') params.chart = activeTab;
+    setSearchParams(params);
     fetchPackageData(packageName);
+  };
+
+  const handleChartChange = (chartId) => {
+    setActiveTab(chartId);
+    // Update URL with new chart, preserve package
+    const params = {};
+    const pkg = searchParams.get('package');
+    if (pkg) params.package = pkg;
+    if (chartId !== 'line') params.chart = chartId; // Only add if not default
+    setSearchParams(params);
   };
 
   const chartTabs = [
@@ -78,6 +110,7 @@ export default function Visualizer() {
             onSuggestionSelect={handleSuggestionSelect}
             suggestions={suggestions}
             loading={loading}
+            initialValue={searchParams.get('package') || ''}
           />
         </div>
 
@@ -115,7 +148,7 @@ export default function Visualizer() {
                     {chartTabs.map((tab) => (
                       <button
                         key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
+                        onClick={() => handleChartChange(tab.id)}
                         className={`px-4 py-2 rounded-md transition-all text-sm font-medium ${
                           activeTab === tab.id
                             ? "bg-blue-500 text-white ring-2 ring-blue-200 shadow-sm"

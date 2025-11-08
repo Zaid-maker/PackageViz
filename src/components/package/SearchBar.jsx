@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 export function SearchBar({ 
@@ -6,10 +6,16 @@ export function SearchBar({
   onInputChange, 
   suggestions, 
   onSuggestionSelect,
-  loading 
+  loading,
+  initialValue = ''
 }) {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(initialValue);
   const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Update input when initialValue changes (e.g., from URL)
+  useEffect(() => {
+    setInputValue(initialValue);
+  }, [initialValue]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;

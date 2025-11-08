@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowPathIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { useToast } from "../ToastContext";
 import { usePackageData, usePackageSearch } from "../hooks/usePackageData";
@@ -27,6 +27,13 @@ export default function Visualizer() {
     clearSuggestions,
   } = usePackageSearch();
 
+  // Show error toast when error changes
+  useEffect(() => {
+    if (error && !loading) {
+      showToast(error, 'error');
+    }
+  }, [error, loading, showToast]);
+
   const handleSearch = (packageName) => {
     if (!packageName || packageName.trim() === '') {
       showToast('Please enter a package name', 'error');
@@ -48,11 +55,6 @@ export default function Visualizer() {
     clearSuggestions();
     fetchPackageData(packageName);
   };
-
-  // Show error toast when error changes
-  if (error && !loading) {
-    showToast(error, 'error');
-  }
 
   const chartTabs = [
     { id: "line", label: "Line Chart", component: LineChart },

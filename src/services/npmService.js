@@ -76,35 +76,18 @@ const npmService = {
 
   /**
    * Get bundle size information
+   * Note: External bundle size APIs have CORS restrictions
+   * This is a placeholder that returns unavailable status
    */
   getBundleSize: async (packageName) => {
-    try {
-      const response = await apiClient.get(
-        `/api/packagephobia/v2/api.json?p=${encodeURIComponent(packageName)}`
-      );
-      
-      return {
-        install: {
-          bytes: response.data.install.bytes,
-          pretty: response.data.install.pretty,
-          dependencies: response.data.install.dependencies || 0,
-        },
-        publish: {
-          bytes: response.data.publish.bytes,
-          pretty: response.data.publish.pretty,
-        },
-        version: response.data.version,
-      };
-    } catch (error) {
-      console.error('Get bundle size error:', error);
-      if (error.status === 404 || error.status === 403) {
-        return {
-          error: 'Bundle size information not available for this package',
-          isError: true,
-        };
-      }
-      return null;
-    }
+    // Bundle size APIs (bundlephobia, packagephobia) have CORS restrictions
+    // when called from browser. They need to be called from server-side.
+    // For now, we'll return a placeholder message.
+    
+    return {
+      error: 'Bundle size analysis requires a backend server. Feature coming soon!',
+      isError: true,
+    };
   },
 
   /**

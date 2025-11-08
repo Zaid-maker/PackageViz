@@ -6,24 +6,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/bundlephobia': {
-        target: 'https://bundlephobia.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/bundlephobia/, ''),
-        headers: {
-          'Accept': 'application/json',
-          'Origin': 'https://bundlephobia.com'
-        }
-      },
-      '/api/packagephobia': {
-        target: 'https://packagephobia.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/packagephobia/, ''),
-      },
+      // NPM Registry proxy to avoid CORS issues
       '/api/npm': {
         target: 'https://registry.npmjs.org',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/npm/, '')
+        rewrite: (path) => path.replace(/^\/api\/npm/, ''),
+        headers: {
+          'Accept': 'application/json'
+        }
       }
     }
   }

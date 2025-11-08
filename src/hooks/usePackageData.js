@@ -24,11 +24,10 @@ export function usePackageData() {
     setBundleSize(null);
 
     try {
-      // Fetch all data in parallel
-      const [packageInfo, downloadStats, bundleInfo] = await Promise.all([
+      // Fetch critical data first (package info and stats)
+      const [packageInfo, downloadStats] = await Promise.all([
         npmService.getPackageInfo(packageName),
         npmService.getDownloadStats(packageName),
-        npmService.getBundleSize(packageName),
       ]);
 
       // Process version statistics
@@ -42,7 +41,13 @@ export function usePackageData() {
         downloads: downloadStats.total || 0,
       });
       setStatsData(processedStats);
-      setBundleSize(bundleInfo);
+
+      // Set bundle size to unavailable message
+      // (External APIs have CORS restrictions)
+      setBundleSize({
+        error: 'Bundle size analysis requires a backend server',
+        isError: true,
+      });
     } catch (err) {
       console.error('Error fetching package data:', err);
       setError(err.message || 'Failed to fetch package data');

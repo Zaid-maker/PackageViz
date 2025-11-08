@@ -26,9 +26,25 @@ apiClient.interceptors.response.use(
     // Enhanced error handling
     if (error.response) {
       // Server responded with error status
+      const status = error.response.status;
+      let message = 'An error occurred';
+
+      // Handle specific status codes
+      if (status === 429) {
+        message = 'Rate limit exceeded. Please try again in a moment.';
+      } else if (status === 404) {
+        message = 'Resource not found';
+      } else if (status === 403) {
+        message = 'Access forbidden';
+      } else if (status >= 500) {
+        message = 'Server error. Please try again later.';
+      } else if (error.response.data?.message) {
+        message = error.response.data.message;
+      }
+
       const customError = {
-        message: error.response.data?.message || 'An error occurred',
-        status: error.response.status,
+        message,
+        status,
         data: error.response.data,
       };
       return Promise.reject(customError);

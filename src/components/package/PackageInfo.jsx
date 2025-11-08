@@ -50,9 +50,19 @@ export function BundleInfo({ bundleSize }) {
 
   if (bundleSize.isError) {
     return (
-      <div className="bg-yellow-50 p-4 rounded-lg text-yellow-700 text-sm flex items-center gap-2">
-        <ExclamationTriangleIcon className="w-5 h-5 flex-shrink-0" />
-        <span>{bundleSize.error}</span>
+      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <div className="flex items-start gap-3">
+          <ExclamationTriangleIcon className="w-5 h-5 flex-shrink-0 text-blue-600 mt-0.5" />
+          <div>
+            <h4 className="text-sm font-semibold text-blue-900 mb-1">Bundle Size Analysis</h4>
+            <p className="text-sm text-blue-700">
+              Bundle size information is currently unavailable. This feature requires API access that has CORS restrictions in the browser.
+            </p>
+            <p className="text-xs text-blue-600 mt-2">
+              💡 Tip: Visit <a href="https://bundlephobia.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-800">bundlephobia.com</a> directly to check bundle sizes.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
